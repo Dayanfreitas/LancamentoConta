@@ -13,8 +13,7 @@ struct ficha_de_conta{
  	char descricao[100];  
 	float valor;
 };
-struct ficha_de_conta receita;
-struct ficha_de_conta despesa;  
+struct ficha_de_conta lancamento;
 
 void limpar();
 void exibirMenu();
@@ -55,9 +54,9 @@ void exibirMenu(){
 			fp = fopen ("arquivo.txt", "w");
 			fprintf(fp,"=================================\n");
             fprintf(fp,"MOVIMENTECAO:Receita\n");            
-            fprintf(fp,"Data :%d/%d/%d",receita.data.dia,receita.data.mes,receita.data.ano);
-            fprintf(fp,"\t\tDESCRICAO: %s",receita.descricao);
-            fprintf(fp,"\t\tVALOR: %.2f\n",receita.valor);	
+            fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
+            fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
+            fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);	
 			fclose(fp);
 			break;
 		case 2:
@@ -66,9 +65,9 @@ void exibirMenu(){
 			fp = fopen ("arquivo.txt", "w");
 			fprintf(fp,"=================================\n");
             fprintf(fp,"MOVIMENTECAO:Despesa\n");            
-            fprintf(fp,"Data :%d/%d/%d",despesa.data.dia,despesa.data.mes,despesa.data.ano);
-            fprintf(fp,"\t\tDESCRICAO: %s",despesa.descricao);
-            fprintf(fp,"\t\tVALOR: %.2f\n",despesa.valor);	
+            fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
+            fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
+            fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);	
 			fclose(fp);
 			break;
 		case 3:
@@ -100,14 +99,14 @@ void buscarData(){
 	mytime = time(NULL);
 	struct tm tm = *localtime(&mytime);
 	
-	receita.data.dia = tm.tm_mday;
-	receita.data.mes = tm.tm_mon + 1;
-	receita.data.ano = tm.tm_year + 1900;
+	lancamento.data.dia = tm.tm_mday;
+	lancamento.data.mes = tm.tm_mon + 1;
+	lancamento.data.ano = tm.tm_year + 1900;
 	
 }
 void mostrarData(){
 	buscarData();
-	printf("Data: %d/%d/%d\n", receita.data.dia,receita.data.mes,receita.data.ano);
+	printf("Data: %d/%d/%d\n", lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 }
 void cadastrarReceita(){
 	printf("=========================\n");
@@ -115,11 +114,11 @@ void cadastrarReceita(){
 	printf("=========================\n");
 	printf("\n");
 	printf("Digite a descricao:");
-	scanf("%s",receita.descricao);
+	scanf("%s",lancamento.descricao);
     // fgets(receita.descricao, sizeof(90), stdin);
 	fflush(stdin);
 	printf("Digite o valor:");
-	scanf("%f",&receita.valor);
+	scanf("%f",&lancamento.valor);
 }
 
 void cadastrarDispesa(){
@@ -128,12 +127,12 @@ void cadastrarDispesa(){
 	printf("=========================\n");
 	printf("\n");
 	printf("Digite a descricao:");
-	scanf("%s",despesa.descricao);
+	scanf("%s",lancamento.descricao);
 	fflush(stdin);
 	printf("Digite o valor:");
-	scanf("%f",&despesa.valor);
+	scanf("%f",&lancamento.valor);
 	
-	printf("%s\n",despesa.descricao);
-	printf("%f\n",despesa.valor);
+	printf("%s\n",lancamento.descricao);
+	printf("%f\n",lancamento.valor);
 	system("pause");
 }

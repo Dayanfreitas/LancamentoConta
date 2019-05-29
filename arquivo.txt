@@ -1,3 +1,3 @@
 =================================
 MOVIMENTECAO:Despesa
-Data :0/0/0		DESCRICAO: despesa		VALOR: 3.30
+Data :29/5/2019		DESCRICAO: nova		VALOR: 2.20
