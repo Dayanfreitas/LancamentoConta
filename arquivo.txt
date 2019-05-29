@@ -1,3 +1,3 @@
 =================================
 MOVIMENTECAO:Receita
-Data :29/5/2019		DESCRICAO: nn		VALOR: 4.40
+Data :29/5/2019		DESCRICAO: dayan		VALOR: 2.20

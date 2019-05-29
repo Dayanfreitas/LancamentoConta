@@ -21,6 +21,7 @@ void exibirMenu();
 void buscarData();
 void mostrarData();
 void cadastrarReceita();
+void cadastrarDispesa();
 
 int main(){
 	exibirMenu();
@@ -58,11 +59,11 @@ void exibirMenu(){
             fprintf(fp,"\t\tDESCRICAO: %s",receita.descricao);
             fprintf(fp,"\t\tVALOR: %.2f\n",receita.valor);	
 			fclose(fp);
-     		system("pause");
-			exibirMenu();
+			break;
 		case 2:
 			printf("2 - Cadastrar nova Despesa(Gastos)\n");
-			exibirMenu();
+			cadastrarDispesa();
+			break;
 		case 3:
 			printf("3 - Listagem de Registros\n");
 			fp = fopen("arquivo.txt", "r");
@@ -75,12 +76,13 @@ void exibirMenu(){
             fclose(fp);
             printf("%c\n",c);
             system("pause");
-			exibirMenu();
+			break;
 		default:
-			printf("Opcao ivalida");
-			exibirMenu();
-    }
-	
+			printf("Opcao ivalida!\n");
+			system("pause");
+	}
+	fflush(stdin);
+	exibirMenu();
 }
 
 void limpar(){
@@ -111,4 +113,20 @@ void cadastrarReceita(){
 	fflush(stdin);
 	printf("Digite o valor:");
 	scanf("%f",&receita.valor);
+}
+
+void cadastrarDispesa(){
+	printf("=========================\n");
+	printf("===Cadastro de despesa===\n");
+	printf("=========================\n");
+	printf("\n");
+	printf("Digite a descricao:");
+	scanf("%s",despesa.descricao);
+	fflush(stdin);
+	printf("Digite o valor:");
+	scanf("%f",&despesa.valor);
+	
+	printf("%s\n",despesa.descricao);
+	printf("%f\n",despesa.valor);
+	system("pause");
 }
