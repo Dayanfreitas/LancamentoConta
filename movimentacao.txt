@@ -1,9 +1,6 @@
 =================================
 MOVIMENTECAO:Receita
-Data :29/5/2019		DESCRICAO: salario		VALOR: 200.00
-=================================
-MOVIMENTECAO:Receita
-Data :29/5/2019		DESCRICAO: 200		VALOR: 3.00
+Data :29/5/2019		DESCRICAO: dayan		VALOR: 20.00
 =================================
 MOVIMENTECAO:Despesa
-Data :29/5/2019		DESCRICAO: luz		VALOR: 200.00
+Data :29/5/2019		DESCRICAO: 3		VALOR: 3.00

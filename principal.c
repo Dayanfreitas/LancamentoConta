@@ -23,6 +23,7 @@ void buscarData();
 void mostrarData();
 void cadastrarReceita();
 void cadastrarDispesa();
+void salvarMovimento(int movimento,FILE *fp);
 
 int main(){
 	exibirMenu();
@@ -53,24 +54,12 @@ void exibirMenu(){
         case 1:
      		printf("1 - Cadastrar nova Receita(Ganhos)\n");
      		cadastrarReceita();
-			fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
-			fprintf(fp,"=================================\n");
-            fprintf(fp,"MOVIMENTECAO:Receita\n");            
-            fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
-            fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
-            fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);	
-			fclose(fp);
+			salvarMovimento(opc, fp);
 			break;
 		case 2:
 			printf("2 - Cadastrar nova Despesa(Gastos)\n");
 			cadastrarDispesa();
-			fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
-			fprintf(fp,"=================================\n");
-            fprintf(fp,"MOVIMENTECAO:Despesa\n");            
-            fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
-            fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
-            fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);	
-			fclose(fp);
+			salvarMovimento(opc, fp);
 			break;
 		case 3:
 			printf("3 - Listagem de Registros\n");
@@ -133,4 +122,24 @@ void cadastrarDispesa(){
 	fflush(stdin);
 	printf("Digite o valor:");
 	scanf("%f",&lancamento.valor);
+}
+void salvarMovimento(int movimento,FILE *fp) {
+	int movimentoReceita = 1;
+	int movimentoDespesa = 2;
+	printf("Salvar movimento %d!\n",movimento);
+	system("pause");
+	fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
+
+	if(movimento == movimentoReceita){
+		fprintf(fp,"=================================\n");
+		fprintf(fp,"MOVIMENTECAO:Receita\n");            	
+	}
+	else if (movimento == movimentoDespesa){
+		fprintf(fp,"=================================\n");
+		fprintf(fp,"MOVIMENTECAO:Despesa\n");            
+	}
+	fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
+	fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
+	fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);	
+	fclose(fp);	
 }
