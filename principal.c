@@ -63,6 +63,13 @@ void exibirMenu(){
 		case 2:
 			printf("2 - Cadastrar nova Despesa(Gastos)\n");
 			cadastrarDispesa();
+			fp = fopen ("arquivo.txt", "w");
+			fprintf(fp,"=================================\n");
+            fprintf(fp,"MOVIMENTECAO:Despesa\n");            
+            fprintf(fp,"Data :%d/%d/%d",despesa.data.dia,despesa.data.mes,despesa.data.ano);
+            fprintf(fp,"\t\tDESCRICAO: %s",despesa.descricao);
+            fprintf(fp,"\t\tVALOR: %.2f\n",despesa.valor);	
+			fclose(fp);
 			break;
 		case 3:
 			printf("3 - Listagem de Registros\n");
