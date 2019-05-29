@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
+#define  NOME_ARQUIVO "movimentacao.txt"
+#define  MODO_ARQUIVO "a"
 
 typedef struct {
 	int dia;
@@ -51,7 +53,7 @@ void exibirMenu(){
         case 1:
      		printf("1 - Cadastrar nova Receita(Ganhos)\n");
      		cadastrarReceita();
-			fp = fopen ("arquivo.txt", "w");
+			fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 			fprintf(fp,"=================================\n");
             fprintf(fp,"MOVIMENTECAO:Receita\n");            
             fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
@@ -62,7 +64,7 @@ void exibirMenu(){
 		case 2:
 			printf("2 - Cadastrar nova Despesa(Gastos)\n");
 			cadastrarDispesa();
-			fp = fopen ("arquivo.txt", "w");
+			fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 			fprintf(fp,"=================================\n");
             fprintf(fp,"MOVIMENTECAO:Despesa\n");            
             fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
@@ -72,7 +74,7 @@ void exibirMenu(){
 			break;
 		case 3:
 			printf("3 - Listagem de Registros\n");
-			fp = fopen("arquivo.txt", "r");
+			fp = fopen(NOME_ARQUIVO, "r");
 			int c;
             while (!feof(fp))
             {
@@ -131,8 +133,4 @@ void cadastrarDispesa(){
 	fflush(stdin);
 	printf("Digite o valor:");
 	scanf("%f",&lancamento.valor);
-	
-	printf("%s\n",lancamento.descricao);
-	printf("%f\n",lancamento.valor);
-	system("pause");
 }
