@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
-#define  NOME_ARQUIVO "movimentacao.txt"
+#define  NOME_ARQUIVO "Movimentacao.txt"
 #define  MODO_ARQUIVO "a"
 
 typedef struct {
@@ -45,6 +45,7 @@ void exibirMenu(){
 	printf("1 - Cadastrar nova Receita(Ganhos)\n");
 	printf("2 - Cadastrar nova Despesa(Gastos)\n");
 	printf("3 - Listagem de Registros\n");
+	printf("0 - Sair e Salvar\n");
     printf(">>>");
 
 	gets(opcao);
@@ -74,6 +75,8 @@ void exibirMenu(){
             printf("%c\n",c);
             system("pause");
 			break;
+		case 0:
+			salvarMovimento(opc,fp);
 		default:
 			printf("Opcao ivalida!\n");
 			system("pause");
@@ -126,29 +129,39 @@ void cadastrarDispesa(){
 void salvarMovimento(int movimento,FILE *fp) {
 	int movimentoReceita = 1;
 	int movimentoDespesa = 2;
+	int sair = 0;
 	float static totalReceita = 0;
 	float static totalDespesa = 0;
-	printf("Salvar movimento %d!\n",movimento);
-	system("pause");
+	float static total = 0;
+	
 	fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 
 	if(movimento == movimentoReceita){
 		totalReceita += lancamento.valor; 
 		fprintf(fp,"=================================\n");
 		fprintf(fp,"MOVIMENTECAO:Receita\n");        
-		printf("TOTAL RECEITA: %f",totalReceita);    	
-		system("pause");
 	}
 	else if (movimento == movimentoDespesa){
 		totalDespesa += lancamento.valor; 
 		fprintf(fp,"=================================\n");
 		fprintf(fp,"MOVIMENTECAO:Despesa\n");
-		printf("TOTAL DESPESA: %f",totalDespesa);
-		system("pause");
-
+	}else if ( movimento == sair ){	
+		total = totalReceita - totalDespesa;
+		fprintf(fp,"==============\n",total);	
+		fprintf(fp,"TOTAL:%.2f\n",total);	
+		fprintf(fp,"==============\n",total);	
+		fclose(fp);
+		exit(0);
 	}
+
 	fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 	fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
-	fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);	
+	fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);
+
+	total = totalReceita - totalDespesa;
+	fprintf(fp,"TOTAL RECEITA:%.2f",totalReceita);	
+	fprintf(fp,"\tTOTAL DESPESA:%.2f",totalDespesa);	
+	fprintf(fp,"\tTOTAL:%.2f\n",total);	
+
 	fclose(fp);	
 }
