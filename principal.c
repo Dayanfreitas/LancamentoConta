@@ -126,17 +126,26 @@ void cadastrarDispesa(){
 void salvarMovimento(int movimento,FILE *fp) {
 	int movimentoReceita = 1;
 	int movimentoDespesa = 2;
+	float static totalReceita = 0;
+	float static totalDespesa = 0;
 	printf("Salvar movimento %d!\n",movimento);
 	system("pause");
 	fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 
 	if(movimento == movimentoReceita){
+		totalReceita += lancamento.valor; 
 		fprintf(fp,"=================================\n");
-		fprintf(fp,"MOVIMENTECAO:Receita\n");            	
+		fprintf(fp,"MOVIMENTECAO:Receita\n");        
+		printf("TOTAL RECEITA: %f",totalReceita);    	
+		system("pause");
 	}
 	else if (movimento == movimentoDespesa){
+		totalDespesa += lancamento.valor; 
 		fprintf(fp,"=================================\n");
-		fprintf(fp,"MOVIMENTECAO:Despesa\n");            
+		fprintf(fp,"MOVIMENTECAO:Despesa\n");
+		printf("TOTAL DESPESA: %f",totalDespesa);
+		system("pause");
+
 	}
 	fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 	fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);

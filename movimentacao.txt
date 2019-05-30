@@ -1,6 +1,0 @@
-=================================
-MOVIMENTECAO:Receita
-Data :29/5/2019		DESCRICAO: dayan		VALOR: 20.00
-=================================
-MOVIMENTECAO:Despesa
-Data :29/5/2019		DESCRICAO: 3		VALOR: 3.00
