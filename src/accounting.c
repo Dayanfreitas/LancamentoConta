@@ -33,7 +33,7 @@ void showOptions();
 
 void saveIncoming();
 void saveExpense();
-void saveMovement(int movimento,FILE *fp);
+void saveMovement(int movimento, FILE *fp);
 
 int main(){
 	displayMenu();
@@ -49,13 +49,12 @@ void displayMenu(){
 
 	fgets(choice, sizeof(choice), stdin);
 	opc = atoi(choice);
-	printf("Opcao: %d\n", atoi(choice));
 
 	cleanScreen();
-	switch(opc){
-        case 1:
-     		printf("1 - Cadastrar nova Receita(Ganhos)\n");
-     		saveIncoming();
+	switch(opc) {
+		case 1:
+			printf("1 - Cadastrar nova Receita(Ganhos)\n");
+			saveIncoming();
 			saveMovement(opc, fp);
 			break;
 		case 2:
@@ -67,21 +66,23 @@ void displayMenu(){
 			printf("3 - Listagem de Registros\n");
 			fp = fopen(NOME_ARQUIVO, "r");
 			int c;
-            while (!feof(fp))
-            {
-                c = fgetc(fp);
-                printf("%c",c);
-            }
-            fclose(fp);
-            printf("%c\n",c);
-            system("pause");
+
+			while (!feof(fp)) {
+				c = fgetc(fp);
+				printf("%c",c);
+			}
+
+			fclose(fp);
+			printf("%c\n", c);
+			system("pause");
 			break;
 		case 0:
-			saveMovement(opc,fp);
+			saveMovement(opc, fp);
 		default:
-			printf("Opcao ivalida!\n");
+			printf("Opção inválida!\n");
 			system("pause");
 	}
+
 	fflush(stdin);
 	displayMenu();
 }
@@ -126,10 +127,10 @@ void saveIncoming(){
 	printf("=========================\n");
 	printf("\n");
 	printf("Digite a descricao:");
-	scanf("%s",lancamento.descricao);
+	scanf("%s", lancamento.descricao);
 	fflush(stdin);
 	printf("Digite o valor:");
-	scanf("%f",&lancamento.valor);
+	scanf("%f", &lancamento.valor);
 }
 
 void saveExpense(){
@@ -138,12 +139,12 @@ void saveExpense(){
 	printf("=========================\n");
 	printf("\n");
 	printf("Digite a descricao:");
-	scanf("%s",lancamento.descricao);
+	scanf("%s", lancamento.descricao);
 	fflush(stdin);
 	printf("Digite o valor:");
-	scanf("%f",&lancamento.valor);
+	scanf("%f", &lancamento.valor);
 }
-void saveMovement(int movimento,FILE *fp) {
+void saveMovement(int movimento, FILE *fp) {
 	int movimentoReceita = 1;
 	int movimentoDespesa = 2;
 	int sair = 0;
