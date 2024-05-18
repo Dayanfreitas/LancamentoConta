@@ -4,6 +4,14 @@
 #define  NOME_ARQUIVO "Movimentacao.txt"
 #define  MODO_ARQUIVO "a"
 
+// Definição de uma macro para limpar a tela, dependendo do sistema operacional
+#ifdef _WIN32
+	#define CLEAR_SCREEN "cls"
+#else
+	#define CLEAR_SCREEN "clear"
+#endif
+
+
 typedef struct {
 	int dia;
 	int mes;
@@ -18,7 +26,9 @@ struct ficha_de_conta{
 
 struct ficha_de_conta lancamento;
 
-void limpar();
+
+
+void cleanScreen();
 void exibirMenu();
 void buscarData();
 void mostrarData();
@@ -33,12 +43,10 @@ int main(){
 
 void exibirMenu(){
 	FILE *fp;
-	
-	char choice[10];
-	
+	char choice[10];	
 	int opc;
-	
-	limpar();
+
+	cleanScreen();
 	printf("***************************\n");
 	mostrarData();
 	printf("***************************\n");	
@@ -55,7 +63,7 @@ void exibirMenu(){
 	opc = atoi(choice);
 	printf("Opcao: %d\n", atoi(choice));
 
-	limpar();
+	cleanScreen();
 	switch(opc){
         case 1:
      		printf("1 - Cadastrar nova Receita(Ganhos)\n");
@@ -90,9 +98,10 @@ void exibirMenu(){
 	exibirMenu();
 }
 
-void limpar(){
-	system("cls");
+void cleanScreen(){
+	system(CLEAR_SCREEN);
 }
+
 void buscarData(){
 	time_t mytime;
 	mytime = time(NULL);
