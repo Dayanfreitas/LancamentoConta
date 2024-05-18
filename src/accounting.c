@@ -4,6 +4,9 @@
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODO_ARQUIVO "a"
 
+#define INCOMING "+"
+#define EXPENSE "-"
+
 // Definição de uma macro para limpar a tela, dependendo do sistema operacional
 #ifdef _WIN32
 	#define CLEAR_SCREEN "cls"
@@ -33,8 +36,13 @@ void showOptions();
 void pause();
 void clean();
 
+void displayIncoming();
 void saveIncoming();
+
+void displayExpense();
 void saveExpense();
+
+void displayMovement();
 void saveMovement(int movimento, FILE *fp);
 
 int main(){
@@ -52,19 +60,20 @@ void displayMenu(){
 	fgets(choice, sizeof(choice), stdin);
 	opc = atoi(choice);
 
+	clean();
 	switch(opc) {
 		case 1:
-			printf("1 - Cadastrar nova Receita(Ganhos)\n");
+			displayIncoming();
 			saveIncoming();
 			saveMovement(opc, fp);
 			break;
 		case 2:
-			printf("2 - Cadastrar nova Despesa(Gastos)\n");
+			displayExpense();
 			saveExpense();
 			saveMovement(opc, fp);
 			break;
 		case 3:
-			printf("3 - Listagem de Registros\n");
+			displayMovement();
 			fp = fopen(NOME_ARQUIVO, "r");
 			int c;
 
@@ -127,11 +136,7 @@ void showDate(){
 	printf("Data: %d/%d/%d\n", lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 }
 
-void saveIncoming(){
-	printf("=========================\n");
-	printf("===Cadastro de receita===\n");
-	printf("=========================\n");
-	printf("\n");
+void saveIncoming() {
 	printf("Digite a descricao:");
 	scanf("%s", lancamento.descricao);
 	fflush(stdin);
@@ -139,17 +144,34 @@ void saveIncoming(){
 	scanf("%f", &lancamento.valor);
 }
 
-void saveExpense(){
-	printf("=========================\n");
-	printf("===Cadastro de despesa===\n");
-	printf("=========================\n");
+void displayIncoming() {
+	printf("1 - Cadastrar nova Receita (%s)\n", INCOMING);
+	printf("=============================\n");
+	printf("===Cadastro de receita(%s)===\n", INCOMING);
+	printf("=============================\n");
 	printf("\n");
+}
+
+void saveExpense() {
 	printf("Digite a descricao:");
 	scanf("%s", lancamento.descricao);
 	fflush(stdin);
 	printf("Digite o valor:");
 	scanf("%f", &lancamento.valor);
 }
+
+void displayExpense() {
+	printf("2 - Cadastrar nova Despesa(%s)\n", EXPENSE);
+	printf("=============================\n");
+	printf("===Cadastro de despesa(%s)===\n", EXPENSE);
+	printf("=============================\n");
+	printf("\n");
+}
+
+void displayMovement() {
+	printf("3 - Listagem de Registros\n");
+}
+
 void saveMovement(int movimento, FILE *fp) {
 	int movimentoReceita = 1;
 	int movimentoDespesa = 2;
