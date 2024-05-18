@@ -27,6 +27,8 @@ clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 
 run:
+	make clean
+	make
 	./$(TARGET)
 
 .PHONY: clean
