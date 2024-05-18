@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define  NOME_ARQUIVO "Movimentacao.txt"
+#define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODO_ARQUIVO "a"
 
 // Definição de uma macro para limpar a tela, dependendo do sistema operacional
@@ -26,29 +26,28 @@ struct ficha_de_conta{
 
 struct ficha_de_conta lancamento;
 
-
-
 void cleanScreen();
-void exibirMenu();
-void buscarData();
-void mostrarData();
-void cadastrarReceita();
-void cadastrarDispesa();
-void salvarMovimento(int movimento,FILE *fp);
+void displayMenu();
+void searchDate();
+void showDate();
+
+void saveIncoming();
+void saveExpense();
+void saveMovement(int movimento,FILE *fp);
 
 int main(){
-	exibirMenu();
+	displayMenu();
 	return 0;
 }
 
-void exibirMenu(){
+void displayMenu(){
 	FILE *fp;
 	char choice[10];	
 	int opc;
 
 	cleanScreen();
 	printf("***************************\n");
-	mostrarData();
+	showDate();
 	printf("***************************\n");	
 	printf("************MENU***********\n");
 	printf("***************************\n");
@@ -67,13 +66,13 @@ void exibirMenu(){
 	switch(opc){
         case 1:
      		printf("1 - Cadastrar nova Receita(Ganhos)\n");
-     		cadastrarReceita();
-			salvarMovimento(opc, fp);
+     		saveIncoming();
+			saveMovement(opc, fp);
 			break;
 		case 2:
 			printf("2 - Cadastrar nova Despesa(Gastos)\n");
-			cadastrarDispesa();
-			salvarMovimento(opc, fp);
+			saveExpense();
+			saveMovement(opc, fp);
 			break;
 		case 3:
 			printf("3 - Listagem de Registros\n");
@@ -89,20 +88,20 @@ void exibirMenu(){
             system("pause");
 			break;
 		case 0:
-			salvarMovimento(opc,fp);
+			saveMovement(opc,fp);
 		default:
 			printf("Opcao ivalida!\n");
 			system("pause");
 	}
 	fflush(stdin);
-	exibirMenu();
+	displayMenu();
 }
 
 void cleanScreen(){
 	system(CLEAR_SCREEN);
 }
 
-void buscarData(){
+void searchDate(){
 	time_t mytime;
 	mytime = time(NULL);
 	struct tm tm = *localtime(&mytime);
@@ -112,11 +111,11 @@ void buscarData(){
 	lancamento.data.ano = tm.tm_year + 1900;
 	
 }
-void mostrarData(){
-	buscarData();
+void showDate(){
+	searchDate();
 	printf("Data: %d/%d/%d\n", lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 }
-void cadastrarReceita(){
+void saveIncoming(){
 	printf("=========================\n");
 	printf("===Cadastro de receita===\n");
 	printf("=========================\n");
@@ -128,7 +127,7 @@ void cadastrarReceita(){
 	scanf("%f",&lancamento.valor);
 }
 
-void cadastrarDispesa(){
+void saveExpense(){
 	printf("=========================\n");
 	printf("===Cadastro de despesa===\n");
 	printf("=========================\n");
@@ -139,7 +138,7 @@ void cadastrarDispesa(){
 	printf("Digite o valor:");
 	scanf("%f",&lancamento.valor);
 }
-void salvarMovimento(int movimento,FILE *fp) {
+void saveMovement(int movimento,FILE *fp) {
 	int movimentoReceita = 1;
 	int movimentoDespesa = 2;
 	int sair = 0;

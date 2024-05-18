@@ -43,3 +43,11 @@ src/: Pasta contendo os arquivos de código-fonte (.c). É aqui que você coloca
 include/: Pasta contendo os arquivos de cabeçalho (.h). Você coloca os arquivos .h aqui, que são os cabeçalhos para os seus arquivos .c. Isso ajuda a manter uma separação clara entre a interface pública (definida nos arquivos .h) e a implementação privada (nos arquivos .c).
 
 Makefile: Este é o arquivo Makefile que você usará para compilar seu projeto. Ele contém as regras para compilar os arquivos .c em seu projeto e criar o executável final.
+
+## Comandos 
+
+No GCC e em compiladores compatíveis, você pode usar a opção -dM para gerar uma lista de todas as macros definidas:
+
+bash
+Copiar código
+gcc -dM -E - < /dev/null
