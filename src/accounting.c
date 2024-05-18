@@ -25,11 +25,13 @@ struct ficha_de_conta{
 
 struct ficha_de_conta lancamento;
 
-void cleanScreen();
 void displayMenu();
 void searchDate();
 void showDate();
 void showOptions();
+
+void pause();
+void clean();
 
 void saveIncoming();
 void saveExpense();
@@ -44,13 +46,12 @@ void displayMenu(){
 	FILE *fp;
 	char choice[10];	
 	int opc;
-
+	
+	pause();
 	showOptions();
-
 	fgets(choice, sizeof(choice), stdin);
 	opc = atoi(choice);
 
-	cleanScreen();
 	switch(opc) {
 		case 1:
 			printf("1 - Cadastrar nova Receita(Ganhos)\n");
@@ -74,21 +75,26 @@ void displayMenu(){
 
 			fclose(fp);
 			printf("%c\n", c);
-			system("pause");
+			pause();
 			break;
 		case 0:
 			saveMovement(opc, fp);
 		default:
 			printf("Opção inválida!\n");
-			system("pause");
+			pause();
 	}
 
 	fflush(stdin);
 	displayMenu();
 }
 
+void pause() {
+	printf("\nPressione qualquer tecla para continuar...");
+	getchar();
+}
+
 void showOptions() {
-	cleanScreen();
+	clean();
 	printf("***************************\n");
 	showDate();
 	printf("***************************\n");	
@@ -102,7 +108,7 @@ void showOptions() {
 	printf(">>>");
 }
 
-void cleanScreen(){
+void clean(){
 	system(CLEAR_SCREEN);
 }
 
