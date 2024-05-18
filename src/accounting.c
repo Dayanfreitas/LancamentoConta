@@ -11,7 +11,6 @@
 	#define CLEAR_SCREEN "clear"
 #endif
 
-
 typedef struct {
 	int dia;
 	int mes;
@@ -30,6 +29,7 @@ void cleanScreen();
 void displayMenu();
 void searchDate();
 void showDate();
+void showOptions();
 
 void saveIncoming();
 void saveExpense();
@@ -45,18 +45,7 @@ void displayMenu(){
 	char choice[10];	
 	int opc;
 
-	cleanScreen();
-	printf("***************************\n");
-	showDate();
-	printf("***************************\n");	
-	printf("************MENU***********\n");
-	printf("***************************\n");
-	printf("Insira a opcao desejada\n\n");
-	printf("1 - Cadastrar nova Receita(Ganhos)\n");
-	printf("2 - Cadastrar nova Despesa(Gastos)\n");
-	printf("3 - Listagem de Registros\n");
-	printf("0 - Sair e Salvar\n");
-	printf(">>>");
+	showOptions();
 
 	fgets(choice, sizeof(choice), stdin);
 	opc = atoi(choice);
@@ -97,6 +86,21 @@ void displayMenu(){
 	displayMenu();
 }
 
+void showOptions() {
+	cleanScreen();
+	printf("***************************\n");
+	showDate();
+	printf("***************************\n");	
+	printf("************MENU***********\n");
+	printf("***************************\n");
+	printf("Insira a opcao desejada\n\n");
+	printf("1 - Cadastrar nova Receita(Ganhos)\n");
+	printf("2 - Cadastrar nova Despesa(Gastos)\n");
+	printf("3 - Listagem de Registros\n");
+	printf("0 - Sair e Salvar\n");
+	printf(">>>");
+}
+
 void cleanScreen(){
 	system(CLEAR_SCREEN);
 }
@@ -108,13 +112,14 @@ void searchDate(){
 	
 	lancamento.data.dia = tm.tm_mday;
 	lancamento.data.mes = tm.tm_mon + 1;
-	lancamento.data.ano = tm.tm_year + 1900;
-	
+	lancamento.data.ano = tm.tm_year + 1900;	
 }
+
 void showDate(){
 	searchDate();
 	printf("Data: %d/%d/%d\n", lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 }
+
 void saveIncoming(){
 	printf("=========================\n");
 	printf("===Cadastro de receita===\n");
