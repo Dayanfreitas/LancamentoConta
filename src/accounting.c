@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "../include/display.h"
+
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODO_ARQUIVO "a"
 
@@ -31,16 +33,15 @@ struct ficha_de_conta lancamento;
 void displayMenu();
 void searchDate();
 void showDate();
-void showOptions();
 
 void pause();
 void clean();
 
 void displayIncoming();
-void saveIncoming();
+void readIncoming();
 
 void displayExpense();
-void saveExpense();
+void readExpense();
 
 void displayMovement();
 void saveMovement(int movimento, FILE *fp);
@@ -64,12 +65,12 @@ void displayMenu(){
 	switch(opc) {
 		case 1:
 			displayIncoming();
-			saveIncoming();
+			readIncoming();
 			saveMovement(opc, fp);
 			break;
 		case 2:
 			displayExpense();
-			saveExpense();
+			readExpense();
 			saveMovement(opc, fp);
 			break;
 		case 3:
@@ -102,21 +103,6 @@ void pause() {
 	getchar();
 }
 
-void showOptions() {
-	clean();
-	printf("***************************\n");
-	showDate();
-	printf("***************************\n");	
-	printf("************MENU***********\n");
-	printf("***************************\n");
-	printf("Insira a opcao desejada\n\n");
-	printf("1 - Cadastrar nova Receita(Ganhos)\n");
-	printf("2 - Cadastrar nova Despesa(Gastos)\n");
-	printf("3 - Listagem de Registros\n");
-	printf("0 - Sair e Salvar\n");
-	printf(">>>");
-}
-
 void clean(){
 	system(CLEAR_SCREEN);
 }
@@ -133,11 +119,11 @@ void searchDate(){
 
 void showDate(){
 	searchDate();
-	printf("Data: %d/%d/%d\n", lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
+	printf("Data: %d/%d/%d\n", lancamento.data.dia, lancamento.data.mes, lancamento.data.ano);
 }
 
-void saveIncoming() {
-	printf("Digite a descricao:");
+void readIncoming() {
+	printf("Digite a descrição:");
 	scanf("%s", lancamento.descricao);
 	fflush(stdin);
 	printf("Digite o valor:");
@@ -152,8 +138,8 @@ void displayIncoming() {
 	printf("\n");
 }
 
-void saveExpense() {
-	printf("Digite a descricao:");
+void readExpense() {
+	printf("Digite a descrição:");
 	scanf("%s", lancamento.descricao);
 	fflush(stdin);
 	printf("Digite o valor:");
@@ -199,6 +185,8 @@ void saveMovement(int movimento, FILE *fp) {
 		fclose(fp);
 		exit(0);
 	}
+
+	showDate();
 
 	fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
 	fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
