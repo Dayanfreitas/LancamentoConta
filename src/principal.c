@@ -32,8 +32,10 @@ int main(){
 }
 
 void exibirMenu(){
-    FILE *fp;
-	char opcao[10];
+	FILE *fp;
+	
+	char choice[10];
+	
 	int opc;
 	
 	limpar();
@@ -47,10 +49,12 @@ void exibirMenu(){
 	printf("2 - Cadastrar nova Despesa(Gastos)\n");
 	printf("3 - Listagem de Registros\n");
 	printf("0 - Sair e Salvar\n");
-    printf(">>>");
+	printf(">>>");
 
-	gets(opcao);
-	opc = atoi(opcao);
+	fgets(choice, sizeof(choice), stdin);
+	opc = atoi(choice);
+	printf("Opcao: %d\n", atoi(choice));
+
 	limpar();
 	switch(opc){
         case 1:
