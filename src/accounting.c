@@ -38,7 +38,7 @@ int isExit(int opc);
 
 int main(){
 	accountant();
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 void accountant(){
