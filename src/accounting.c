@@ -9,6 +9,7 @@
 
 #define OP_INCOMING 1
 #define OP_EXPENSE 2
+#define OP_SEE_LIST 3
 
 typedef struct {
 	int dia;
@@ -25,7 +26,6 @@ struct ficha_de_conta{
 struct ficha_de_conta lancamento;
 
 void accountant();
-
 
 void readIncoming();
 void readExpense();
@@ -52,36 +52,35 @@ void accountant(){
 	opc = atoi(choice);
 
 	clean();
-	switch(opc) {
-		case 1:
-			displayIncoming();
-			readIncoming();
-			saveMovement(opc, fp);
-			break;
-		case 2:
-			displayExpense();
-			readExpense();
-			saveMovement(opc, fp);
-			break;
-		case 3:
-			displayMovement();
-			fp = fopen(NOME_ARQUIVO, "r");
-			int c;
 
-			while (!feof(fp)) {
-				c = fgetc(fp);
-				printf("%c",c);
-			}
+	if (isIncoming(opc)) {
+		displayIncoming();
+		readIncoming();
+		saveMovement(opc, fp);
+	} else if (isExpense(opc)) {
+		displayExpense();
+		readExpense();
+		saveMovement(opc, fp);
+	} else if (isSeeListMovements(opc)) {
+		displayMovement();
+		fp = fopen(NOME_ARQUIVO, "r");
+		int c;
 
-			fclose(fp);
-			printf("%c\n", c);
-			pause();
-			break;
-		case 0:
-			saveMovement(opc, fp);
-		default:
-			printf("Opção inválida!\n");
-			pause();
+		while (!feof(fp)) {
+			c = fgetc(fp);
+			printf("%c",c);
+		}
+
+		fclose(fp);
+		printf("%c\n", c);
+		pause();
+	} else if (isExit(opc)) {
+		saveMovement(opc, fp);
+	} else {
+		clean();
+		
+		printf("Opção inválida!\n");
+		pause();
 	}
 
 	fflush(stdin);
@@ -112,6 +111,10 @@ int isExpense(int opc) {
 	return opc == OP_EXPENSE;
 }
 
+int isSeeListMovements(int opc) {
+	return opc == OP_SEE_LIST;
+}
+
 int isExit(int opc) {
 	return opc == EXIT_SUCCESS;
 }
@@ -126,12 +129,36 @@ void saveMovement(int movimento, FILE *fp) {
 	if(isIncoming(movimento)){
 		totalReceita += lancamento.valor; 
 		fprintf(fp,"=================================\n");
-		fprintf(fp,"MOVIMENTECAO:Receita\n");        
+		fprintf(fp,"MOVIMENTECAO:Receita\n");       
+		
+		// DESCRIÇÃO DO MOVIMENTO
+		fprintf(fp, "Data : %s", dateNow());
+		fprintf(fp, "\t\tDESCRICAO: %s",lancamento.descricao);
+		fprintf(fp, "\t\tVALOR: %.2f\n",lancamento.valor);
+
+		// CALCULA O TOTAL
+		// Salvar no arquivo	
+		total = totalReceita - totalDespesa;
+		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
+		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
+		fprintf(fp, "\tTOTAL:%.2f\n",total);	
 	}
 	else if (isExpense(movimento)){
 		totalDespesa += lancamento.valor; 
 		fprintf(fp,"=================================\n");
 		fprintf(fp,"MOVIMENTECAO:Despesa\n");
+
+		// DESCRIÇÃO DO MOVIMENTO
+		fprintf(fp, "Data : %s", dateNow());
+		fprintf(fp, "\t\tDESCRICAO: %s",lancamento.descricao);
+		fprintf(fp, "\t\tVALOR: %.2f\n",lancamento.valor);
+
+		// CALCULA O TOTAL
+		// Salvar no arquivo	
+		total = totalReceita - totalDespesa;
+		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
+		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
+		fprintf(fp, "\tTOTAL:%.2f\n",total);	
 	}else if (isExit(movimento)){	
 		total = totalReceita - totalDespesa;
 		fprintf(fp,"==============\n",total);	
@@ -140,15 +167,6 @@ void saveMovement(int movimento, FILE *fp) {
 		fclose(fp);
 		exit(EXIT_SUCCESS);
 	}
-
-	fprintf(fp,"Data : %s", dateNow());
-	fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
-	fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);
-
-	total = totalReceita - totalDespesa;
-	fprintf(fp,"TOTAL RECEITA:%.2f",totalReceita);	
-	fprintf(fp,"\tTOTAL DESPESA:%.2f",totalDespesa);	
-	fprintf(fp,"\tTOTAL:%.2f\n",total);	
 
 	fclose(fp);	
 }
