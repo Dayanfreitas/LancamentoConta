@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "../include/display.h"
+#include "../include/date_utils.h"
 
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODO_ARQUIVO "a"
@@ -31,8 +32,6 @@ struct ficha_de_conta{
 struct ficha_de_conta lancamento;
 
 void accountant();
-void searchDate();
-void showDate();
 
 void pause();
 void clean();
@@ -107,21 +106,6 @@ void clean(){
 	system(CLEAR_SCREEN);
 }
 
-void searchDate(){
-	time_t mytime;
-	mytime = time(NULL);
-	struct tm tm = *localtime(&mytime);
-	
-	lancamento.data.dia = tm.tm_mday;
-	lancamento.data.mes = tm.tm_mon + 1;
-	lancamento.data.ano = tm.tm_year + 1900;	
-}
-
-void showDate(){
-	searchDate();
-	printf("Data: %d/%d/%d\n", lancamento.data.dia, lancamento.data.mes, lancamento.data.ano);
-}
-
 void readIncoming() {
 	printf("Digite a descrição:");
 	scanf("%s", lancamento.descricao);
@@ -175,9 +159,7 @@ void saveMovement(int movimento, FILE *fp) {
 		exit(0);
 	}
 
-	showDate();
-
-	fprintf(fp,"Data :%d/%d/%d",lancamento.data.dia,lancamento.data.mes,lancamento.data.ano);
+	fprintf(fp,"Data : %s", dateNow());
 	fprintf(fp,"\t\tDESCRICAO: %s",lancamento.descricao);
 	fprintf(fp,"\t\tVALOR: %.2f\n",lancamento.valor);
 
