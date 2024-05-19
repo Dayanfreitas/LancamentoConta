@@ -6,6 +6,9 @@
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODO_ARQUIVO "a"
 
+#define OP_INCOMING 1
+#define OP_EXPENSE 2
+	
 // Definição de uma macro para limpar a tela, dependendo do sistema operacional
 #ifdef _WIN32
 	#define CLEAR_SCREEN "cls"
@@ -38,6 +41,10 @@ void readIncoming();
 void readExpense();
 
 void saveMovement(int movimento, FILE *fp);
+
+int isIncoming(int opc);
+int isExpense(int opc);
+int isExit(int opc);
 
 int main(){
 	accountant();
@@ -123,8 +130,6 @@ void readIncoming() {
 	scanf("%f", &lancamento.valor);
 }
 
-
-
 void readExpense() {
 	printf("Digite a descrição:");
 	scanf("%s", lancamento.descricao);
@@ -133,28 +138,35 @@ void readExpense() {
 	scanf("%f", &lancamento.valor);
 }
 
+int isIncoming(int opc) {
+	return opc == OP_INCOMING;
+}
 
+int isExpense(int opc) {
+	return opc == OP_EXPENSE;
+}
+
+int isExit(int opc) {
+	return opc == EXIT_SUCCESS;
+}
 
 void saveMovement(int movimento, FILE *fp) {
-	int movimentoReceita = 1;
-	int movimentoDespesa = 2;
-	int sair = 0;
 	float static totalReceita = 0;
 	float static totalDespesa = 0;
 	float static total = 0;
 	
 	fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 
-	if(movimento == movimentoReceita){
+	if(isIncoming(movimento)){
 		totalReceita += lancamento.valor; 
 		fprintf(fp,"=================================\n");
 		fprintf(fp,"MOVIMENTECAO:Receita\n");        
 	}
-	else if (movimento == movimentoDespesa){
+	else if (isExpense(movimento)){
 		totalDespesa += lancamento.valor; 
 		fprintf(fp,"=================================\n");
 		fprintf(fp,"MOVIMENTECAO:Despesa\n");
-	}else if ( movimento == sair ){	
+	}else if (isExit(movimento)){	
 		total = totalReceita - totalDespesa;
 		fprintf(fp,"==============\n",total);	
 		fprintf(fp,"TOTAL:%.2f\n",total);	
