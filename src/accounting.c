@@ -9,13 +9,6 @@
 
 #define OP_INCOMING 1
 #define OP_EXPENSE 2
-	
-// Definição de uma macro para limpar a tela, dependendo do sistema operacional
-#ifdef _WIN32
-	#define CLEAR_SCREEN "cls"
-#else
-	#define CLEAR_SCREEN "clear"
-#endif
 
 typedef struct {
 	int dia;
@@ -33,8 +26,6 @@ struct ficha_de_conta lancamento;
 
 void accountant();
 
-void pause();
-void clean();
 
 void readIncoming();
 void readExpense();
@@ -95,15 +86,6 @@ void accountant(){
 
 	fflush(stdin);
 	accountant();
-}
-
-void pause() {
-	printf("\nPressione qualquer tecla para continuar...");
-	getchar();
-}
-
-void clean(){
-	system(CLEAR_SCREEN);
 }
 
 void readIncoming() {
