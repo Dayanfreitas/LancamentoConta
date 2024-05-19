@@ -156,7 +156,7 @@ void saveMovement(int movimento, FILE *fp) {
 		fprintf(fp,"TOTAL:%.2f\n",total);	
 		fprintf(fp,"==============\n",total);	
 		fclose(fp);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 
 	fprintf(fp,"Data : %s", dateNow());
