@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "../include/display.h"
 
+#define INCOMING "+"
+#define EXPENSE "-"
 
 void line() {
   printf("\n");
@@ -35,7 +37,38 @@ void header() {
   line();
   separetor('*', 27);
   line();
-	printf("************MENU***********\n");
+	printf("************MENU***********");
+  line();
   separetor('*', 27);
+  line();
+}
+
+void displayIncoming() {
+	printf("1 - Cadastrar nova Receita (%s)", INCOMING);
+  line();
+	
+  printf("=============================");
+  line();
+  printf("===Cadastro de receita(%s)===", INCOMING);
+  line();
+	printf("=============================");
+
+  lines(2);
+}
+
+void displayExpense() {
+	printf("2 - Cadastrar nova Despesa(%s)", EXPENSE);
+  line();
+
+	printf("=============================");
+  line();
+	printf("===Cadastro de despesa(%s)===", EXPENSE);
+  line();
+	printf("=============================");
+  lines(2);
+}
+
+void displayMovement() {
+	printf("3 - Listagem de Registros");
   line();
 }

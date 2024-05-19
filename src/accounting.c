@@ -6,9 +6,6 @@
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODO_ARQUIVO "a"
 
-#define INCOMING "+"
-#define EXPENSE "-"
-
 // Definição de uma macro para limpar a tela, dependendo do sistema operacional
 #ifdef _WIN32
 	#define CLEAR_SCREEN "cls"
@@ -30,28 +27,24 @@ struct ficha_de_conta{
 
 struct ficha_de_conta lancamento;
 
-void displayMenu();
+void accountant();
 void searchDate();
 void showDate();
 
 void pause();
 void clean();
 
-void displayIncoming();
 void readIncoming();
-
-void displayExpense();
 void readExpense();
 
-void displayMovement();
 void saveMovement(int movimento, FILE *fp);
 
 int main(){
-	displayMenu();
+	accountant();
 	return 0;
 }
 
-void displayMenu(){
+void accountant(){
 	FILE *fp;
 	char choice[10];	
 	int opc;
@@ -95,7 +88,7 @@ void displayMenu(){
 	}
 
 	fflush(stdin);
-	displayMenu();
+	accountant();
 }
 
 void pause() {
@@ -130,13 +123,7 @@ void readIncoming() {
 	scanf("%f", &lancamento.valor);
 }
 
-void displayIncoming() {
-	printf("1 - Cadastrar nova Receita (%s)\n", INCOMING);
-	printf("=============================\n");
-	printf("===Cadastro de receita(%s)===\n", INCOMING);
-	printf("=============================\n");
-	printf("\n");
-}
+
 
 void readExpense() {
 	printf("Digite a descrição:");
@@ -146,17 +133,7 @@ void readExpense() {
 	scanf("%f", &lancamento.valor);
 }
 
-void displayExpense() {
-	printf("2 - Cadastrar nova Despesa(%s)\n", EXPENSE);
-	printf("=============================\n");
-	printf("===Cadastro de despesa(%s)===\n", EXPENSE);
-	printf("=============================\n");
-	printf("\n");
-}
 
-void displayMovement() {
-	printf("3 - Listagem de Registros\n");
-}
 
 void saveMovement(int movimento, FILE *fp) {
 	int movimentoReceita = 1;

@@ -8,4 +8,5 @@ void separetor(char c, int n);
 void header();
 void showOptions();
 
+void displayMovement();
 #endif
