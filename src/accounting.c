@@ -44,24 +44,24 @@ int main(){
 void accountant(){
 	FILE *fp;
 	char choice[10];	
-	int opc;
+	int optionsChoice;
 	
 	pause();
 	showOptions();
 	fgets(choice, sizeof(choice), stdin);
-	opc = atoi(choice);
+	optionsChoice = atoi(choice);
 
 	clean();
 
-	if (isIncoming(opc)) {
+	if (isIncoming(optionsChoice)) {
 		displayIncoming();
 		readIncoming();
-		saveMovement(opc, fp);
-	} else if (isExpense(opc)) {
+		saveMovement(optionsChoice, fp);
+	} else if (isExpense(optionsChoice)) {
 		displayExpense();
 		readExpense();
-		saveMovement(opc, fp);
-	} else if (isSeeListMovements(opc)) {
+		saveMovement(optionsChoice, fp);
+	} else if (isSeeListMovements(optionsChoice)) {
 		displayMovement();
 		fp = fopen(NOME_ARQUIVO, "r");
 		int c;
@@ -74,8 +74,8 @@ void accountant(){
 		fclose(fp);
 		printf("%c\n", c);
 		pause();
-	} else if (isExit(opc)) {
-		saveMovement(opc, fp);
+	} else if (isExit(optionsChoice)) {
+		saveMovement(optionsChoice, fp);
 	} else {
 		clean();
 		
