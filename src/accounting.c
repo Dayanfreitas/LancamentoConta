@@ -30,7 +30,7 @@ void accountant();
 void readIncoming();
 void readExpense();
 
-void saveMovement(int movimento, FILE *fp);
+void saveMovement(int movimento);
 
 int isIncoming(int opc);
 int isExpense(int opc);
@@ -42,7 +42,6 @@ int main(){
 }
 
 void accountant(){
-	FILE *fp;
 	char choice[10];	
 	int optionsChoice;
 	
@@ -56,26 +55,35 @@ void accountant(){
 	if (isIncoming(optionsChoice)) {
 		displayIncoming();
 		readIncoming();
-		saveMovement(optionsChoice, fp);
+		saveMovement(optionsChoice);
 	} else if (isExpense(optionsChoice)) {
 		displayExpense();
 		readExpense();
-		saveMovement(optionsChoice, fp);
+		saveMovement(optionsChoice);
 	} else if (isSeeListMovements(optionsChoice)) {
-		displayMovement();
-		fp = fopen(NOME_ARQUIVO, "r");
+		FILE *file;
 		int c;
+		
+		displayMovement();
 
-		while (!feof(fp)) {
-			c = fgetc(fp);
+		file = fopen(NOME_ARQUIVO, "r");
+		
+		if (file == NULL) {
+			printf("Arquivo não encontrado\n");
+			pause();
+			return;
+		}
+
+		while (!feof(file)) {
+			c = fgetc(file);
 			printf("%c",c);
 		}
 
-		fclose(fp);
+		fclose(file);
 		printf("%c\n", c);
 		pause();
 	} else if (isExit(optionsChoice)) {
-		saveMovement(optionsChoice, fp);
+		saveMovement(optionsChoice);
 	} else {
 		clean();
 		
@@ -119,11 +127,12 @@ int isExit(int opc) {
 	return opc == EXIT_SUCCESS;
 }
 
-void saveMovement(int movimento, FILE *fp) {
+void saveMovement(int movimento) {
 	float static totalReceita = 0;
 	float static totalDespesa = 0;
 	float static total = 0;
 	
+	FILE *fp;
 	fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 
 	if(isIncoming(movimento)){
