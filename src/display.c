@@ -20,6 +20,24 @@ void separetor(char c, int n) {
   }
 }
 
+char* cseparetor(int n) {
+	// Aloca memória para a string com n caracteres mais o terminador nulo
+	char *string = malloc((n + 1) * sizeof(char));
+	if (string == NULL) {
+		return NULL; // Se a alocação falhar, retorna NULL
+	}
+
+	// Preenche a string com o caractere '='
+	for (int i = 0; i < n; i++) {
+		string[i] = '=';
+	}
+
+	// Adiciona o terminador nulo no final da string
+	string[n] = '\0';
+
+	return string;
+}
+
 void showOptions() {
   header();
 
