@@ -136,43 +136,53 @@ void saveMovement(int movimento) {
 	fp = fopen (NOME_ARQUIVO, MODO_ARQUIVO);
 
 	if(isIncoming(movimento)){
-		totalReceita += lancamento.valor; 
-		fprintf(fp,"=================================\n");
-		fprintf(fp,"MOVIMENTECAO:Receita\n");       
+		char *line = cseparetor(33);	
 		
+		fprintf(fp,"%s\n", line);
+		fprintf(fp,"MOVIMENTECAO: Receita\n");       
+		free(line);
+
 		// DESCRIÇÃO DO MOVIMENTO
 		fprintf(fp, "Data : %s", dateNow());
-		fprintf(fp, "\t\tDESCRICAO: %s",lancamento.descricao);
-		fprintf(fp, "\t\tVALOR: %.2f\n",lancamento.valor);
+		fprintf(fp, "\t\tDESCRICAO: %s", lancamento.descricao);
+		fprintf(fp, "\t\tVALOR: %.2f\n", lancamento.valor);
 
 		// CALCULA O TOTAL
 		// Salvar no arquivo	
+		totalReceita += lancamento.valor; 
 		total = totalReceita - totalDespesa;
 		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
 		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
 		fprintf(fp, "\tTOTAL:%.2f\n",total);	
 	}
 	else if (isExpense(movimento)){
-		totalDespesa += lancamento.valor; 
-		fprintf(fp,"=================================\n");
-		fprintf(fp,"MOVIMENTECAO:Despesa\n");
+		char *separetor = cseparetor(33);	
+
+		fprintf(fp, "%s\n", separetor);
+		fprintf(fp,"MOVIMENTECAO: Despesa\n");
+		free(separetor);
 
 		// DESCRIÇÃO DO MOVIMENTO
 		fprintf(fp, "Data : %s", dateNow());
-		fprintf(fp, "\t\tDESCRICAO: %s",lancamento.descricao);
-		fprintf(fp, "\t\tVALOR: %.2f\n",lancamento.valor);
+		fprintf(fp, "\t\tDESCRICAO: %s", lancamento.descricao);
+		fprintf(fp, "\t\tVALOR: %.2f\n", lancamento.valor);
 
 		// CALCULA O TOTAL
 		// Salvar no arquivo	
+		totalDespesa += lancamento.valor;
 		total = totalReceita - totalDespesa;
 		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
 		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
 		fprintf(fp, "\tTOTAL:%.2f\n",total);	
 	}else if (isExit(movimento)){	
+		char *separetor = cseparetor(33);
+
 		total = totalReceita - totalDespesa;
-		fprintf(fp,"==============\n",total);	
-		fprintf(fp,"TOTAL:%.2f\n",total);	
-		fprintf(fp,"==============\n",total);	
+		fprintf(fp, "%s\n", separetor);
+		fprintf(fp, "TOTAL: %.2f\n", total);	
+		fprintf(fp, "%s\n", separetor);
+		free(separetor);
+
 		fclose(fp);
 		exit(EXIT_SUCCESS);
 	}
