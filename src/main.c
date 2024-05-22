@@ -20,6 +20,7 @@ void readExpense();
 
 void saveMovement(int movimento);
 
+FILE* openFile(const char * fileName, const char * mode);
 
 int main(){
 	accountant();
@@ -46,20 +47,10 @@ void accountant(){
 		readExpense();
 		saveMovement(optionsChoice);
 	} else if (isSeeListMovements(optionsChoice)) {
-		FILE *file;
+		FILE *file = openFile(NOME_ARQUIVO, MODE_FILE_READ);
 		int c;
 		
 		displayMovement();
-
-		file = fopen(NOME_ARQUIVO, MODE_FILE_READ);
-		
-		if (file == NULL) {
-			printf("Arquivo não encontrado");
-			line();
-
-			pause();
-			return;
-		}
 
 		while (!feof(file)) {
 			c = fgetc(file);
@@ -100,12 +91,11 @@ void readExpense() {
 }
 
 void saveMovement(int movimento) {
-	static float totalReceita = 0;
-	static float totalDespesa = 0;
+	static float revenue = 0;
+	static float expenses = 0;
 	static float total = 0;
 	
-	FILE *fp;
-	fp = fopen (NOME_ARQUIVO, MODE_FILE_A);
+	FILE *fp = openFile(NOME_ARQUIVO, MODE_FILE_A);
 
 	if(isIncoming(movimento)){
 		char *line = cseparetor(33);	
@@ -121,10 +111,10 @@ void saveMovement(int movimento) {
 
 		// CALCULA O TOTAL
 		// Salvar no arquivo	
-		totalReceita += accountForm.value; 
-		total = totalReceita - totalDespesa;
-		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
-		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
+		revenue += accountForm.value; 
+		total = revenue - expenses;
+		fprintf(fp, "TOTAL RECEITA:%.2f",revenue);	
+		fprintf(fp, "\tTOTAL DESPESA:%.2f",expenses);	
 		fprintf(fp, "\tTOTAL:%.2f\n",total);	
 	}
 	else if (isExpense(movimento)){
@@ -141,15 +131,15 @@ void saveMovement(int movimento) {
 
 		// CALCULA O TOTAL
 		// Salvar no arquivo	
-		totalDespesa += accountForm.value;
-		total = totalReceita - totalDespesa;
-		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
-		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
+		expenses += accountForm.value;
+		total = revenue - expenses;
+		fprintf(fp, "TOTAL RECEITA:%.2f",revenue);	
+		fprintf(fp, "\tTOTAL DESPESA:%.2f",expenses);	
 		fprintf(fp, "\tTOTAL:%.2f\n",total);	
 	}else if (isExit(movimento)){	
 		char *separetor = cseparetor(33);
 
-		total = totalReceita - totalDespesa;
+		total = revenue - expenses;
 		fprintf(fp, "%s\n", separetor);
 		fprintf(fp, "TOTAL: %.2f\n", total);	
 		fprintf(fp, "%s\n", separetor);
@@ -160,4 +150,13 @@ void saveMovement(int movimento) {
 	}
 
 	fclose(fp);	
+}
+
+FILE* openFile(const char * fileName, const char * mode){
+	FILE *file = fopen(fileName, mode);
+	if(file == NULL){
+		printf("Erro ao abrir o arquivo %s\n", fileName);
+		exit(EXIT_FAILURE);
+	}
+	return file;
 }
