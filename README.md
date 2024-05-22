@@ -48,6 +48,14 @@ Makefile: Este é o arquivo Makefile que você usará para compilar seu projeto.
 
 No GCC e em compiladores compatíveis, você pode usar a opção -dM para gerar uma lista de todas as macros definidas:
 
-bash
-Copiar código
+```bash
 gcc -dM -E - < /dev/null
+```
+
+### Como rodar projeto 
+
+```bash
+  $ make run
+```
+
+
