@@ -11,4 +11,6 @@ void showOptions();
 char* cseparetor(int n);
 
 void displayMovement();
+void displayIncoming();
+void displayExpense();
 #endif
