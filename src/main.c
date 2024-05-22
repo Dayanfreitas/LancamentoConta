@@ -100,9 +100,9 @@ void readExpense() {
 }
 
 void saveMovement(int movimento) {
-	float static totalReceita = 0;
-	float static totalDespesa = 0;
-	float static total = 0;
+	static float totalReceita = 0;
+	static float totalDespesa = 0;
+	static float total = 0;
 	
 	FILE *fp;
 	fp = fopen (NOME_ARQUIVO, MODE_FILE_A);
