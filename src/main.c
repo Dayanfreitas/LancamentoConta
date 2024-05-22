@@ -14,13 +14,13 @@
 AccountForm accountForm;
 
 void accountant();
-
 void readIncoming();
 void readExpense();
 
 void saveMovement(int movimento);
 
 FILE* openFile(const char * fileName, const char * mode);
+void printFileContent(FILE *f);
 
 int main(){
 	accountant();
@@ -48,17 +48,12 @@ void accountant(){
 		saveMovement(optionsChoice);
 	} else if (isSeeListMovements(optionsChoice)) {
 		FILE *file = openFile(NOME_ARQUIVO, MODE_FILE_READ);
-		int c;
 		
 		displayMovement();
-
-		while (!feof(file)) {
-			c = fgetc(file);
-			printf("%c",c);
-		}
-
+		printFileContent(file);
+		
 		fclose(file);
-		printf("%c\n", c);
+
 		pause();
 	} else if (isExit(optionsChoice)) {
 		saveMovement(optionsChoice);
@@ -159,4 +154,12 @@ FILE* openFile(const char * fileName, const char * mode){
 		exit(EXIT_FAILURE);
 	}
 	return file;
+}
+
+void printFileContent(FILE *f) {
+	int c;
+
+	while ((c = fgetc(f)) != EOF) {
+		printf("%c",c);
+	}
 }
