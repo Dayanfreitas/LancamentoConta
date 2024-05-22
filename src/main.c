@@ -4,24 +4,14 @@
 #include "../include/display.h"
 #include "../include/date_utils.h"
 #include "../include/accounting.h"
+#include "../include/system_utils.h"
 
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODE_FILE_A "a"
 #define  MODE_FILE_READ "r"
 
-typedef struct {
-	int dia;
-	int mes;
-	int ano; 
-} date; 
 
-struct ficha_de_conta{
-	date data;
- 	char descricao[100];  
-	float valor;
-};
-
-struct ficha_de_conta lancamento;
+AccountForm accountForm;
 
 void accountant();
 
@@ -95,18 +85,18 @@ void accountant(){
 
 void readIncoming() {
 	printf("Digite a descrição:");
-	scanf("%s", lancamento.descricao);
+	scanf("%s", accountForm.description);
 	fflush(stdin);
 	printf("Digite o valor:");
-	scanf("%f", &lancamento.valor);
+	scanf("%f", &accountForm.value);
 }
 
 void readExpense() {
 	printf("Digite a descrição:");
-	scanf("%s", lancamento.descricao);
+	scanf("%s", accountForm.description);
 	fflush(stdin);
 	printf("Digite o valor:");
-	scanf("%f", &lancamento.valor);
+	scanf("%f", &accountForm.value);
 }
 
 void saveMovement(int movimento) {
@@ -126,12 +116,12 @@ void saveMovement(int movimento) {
 
 		// DESCRIÇÃO DO MOVIMENTO
 		fprintf(fp, "Data : %s", dateNow());
-		fprintf(fp, "\t\tDESCRICAO: %s", lancamento.descricao);
-		fprintf(fp, "\t\tVALOR: %.2f\n", lancamento.valor);
+		fprintf(fp, "\t\tDESCRICAO: %s", accountForm.description);
+		fprintf(fp, "\t\tVALOR: %.2f\n", accountForm.value);
 
 		// CALCULA O TOTAL
 		// Salvar no arquivo	
-		totalReceita += lancamento.valor; 
+		totalReceita += accountForm.value; 
 		total = totalReceita - totalDespesa;
 		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
 		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
@@ -146,12 +136,12 @@ void saveMovement(int movimento) {
 
 		// DESCRIÇÃO DO MOVIMENTO
 		fprintf(fp, "Data : %s", dateNow());
-		fprintf(fp, "\t\tDESCRICAO: %s", lancamento.descricao);
-		fprintf(fp, "\t\tVALOR: %.2f\n", lancamento.valor);
+		fprintf(fp, "\t\tDESCRICAO: %s", accountForm.description);
+		fprintf(fp, "\t\tVALOR: %.2f\n", accountForm.value);
 
 		// CALCULA O TOTAL
 		// Salvar no arquivo	
-		totalDespesa += lancamento.valor;
+		totalDespesa += accountForm.value;
 		total = totalReceita - totalDespesa;
 		fprintf(fp, "TOTAL RECEITA:%.2f",totalReceita);	
 		fprintf(fp, "\tTOTAL DESPESA:%.2f",totalDespesa);	
