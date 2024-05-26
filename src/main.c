@@ -5,11 +5,12 @@
 #include "../include/date_utils.h"
 #include "../include/accounting.h"
 #include "../include/system_utils.h"
+#include "../include/file_utils.h"
 
 #define  NOME_ARQUIVO "financial_movement.txt"
 #define  MODE_FILE_A "a"
 #define  MODE_FILE_READ "r"
-
+#define  INVALID_OPTION "Opção inválida!"
 
 AccountForm accountForm;
 
@@ -18,9 +19,6 @@ void readIncoming();
 void readExpense();
 
 void saveMovement(int movimento);
-
-FILE* openFile(const char * fileName, const char * mode);
-void printFileContent(FILE *f);
 
 int main(){
 	accountant();
@@ -60,7 +58,7 @@ void accountant(){
 	} else {
 		clean();
 		
-		printf("Opção inválida!");
+		printf(INVALID_OPTION);
 		line();
 		pause();
 	}
@@ -145,21 +143,4 @@ void saveMovement(int movimento) {
 	}
 
 	fclose(fp);	
-}
-
-FILE* openFile(const char * fileName, const char * mode){
-	FILE *file = fopen(fileName, mode);
-	if(file == NULL){
-		printf("Erro ao abrir o arquivo %s\n", fileName);
-		exit(EXIT_FAILURE);
-	}
-	return file;
-}
-
-void printFileContent(FILE *f) {
-	int c;
-
-	while ((c = fgetc(f)) != EOF) {
-		printf("%c",c);
-	}
 }
